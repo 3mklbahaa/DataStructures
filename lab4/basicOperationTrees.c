@@ -213,3 +213,90 @@ void levelOrder(Btree B){
         }
     }
 }
+
+int Max_rec(Btree B){
+    if(B==NULL){
+        return INT_MIN;
+    }
+    int max_left = Max_rec(B->left);
+    int max_right = Max_rec(B->right);
+    int max_subtree = (max_left > max_right) ? max_left : max_right;
+    return (B->data.a > max_subtree) ? B->data.a : max_subtree;
+}
+
+int Max_rec_Queue(Btree B){
+    int max = INT_MIN;
+    if(B==NULL){
+        return INT_MIN;
+    }
+    Btree tmp;
+    queue q = createQueue();
+    enqueue(&q,B);
+    while(Front(q,&tmp)){
+        dequeue(&q);
+        max = (tmp->data.a>max) ? tmp->data.a : max;
+        if(tmp->left!=NULL){
+            enqueue(&q,tmp->left);
+        }
+        if(tmp->right!=NULL){
+            enqueue(&q,tmp->right);
+        }
+    }
+    return max;
+}
+
+int Max_rec_Stack(Btree B){
+    int max = 0;
+    stack s = createStack();
+    if(B==NULL){
+        return INT_MIN;
+    }
+    Btree tmp;
+    push(&s,B);
+    while(Top(s,&tmp)){
+        pop(&s);
+        max = (tmp->data.a>max) ? tmp->data.a : max;
+        if(tmp->left != NULL){
+            push(&s,tmp->left);
+        }
+        if(tmp->right != NULL){
+            push(&s,tmp->right);
+        }
+    }
+    return max;
+}
+
+int sum(Btree B){
+   if(B==NULL){
+       return 0;
+   }
+   return B->data.a + sum(B->left) + sum(B->left);
+}
+
+int numNodes(Btree B){
+    if(!B){
+        return 0;
+    }
+    return 1 + numNodes(B->left) + numNodes(B->right);
+}
+
+int numLeafNodes(Btree B){
+    if(!B){
+        return 0;
+    }
+    if(B->right==NULL && B->left == NULL){
+        return 1;
+    }
+    return numLeafNodes(B->left) + numLeafNodes(B->right);
+}
+
+int nonleafNodes(Btree B){
+    if(!B){
+        return 0;
+    }
+    if(B->left == NULL && B->right == NULL){
+        return 0;
+    }
+    return 1 + nonleafNodes(B->right) + nonleafNodes(B->left);
+}
+
