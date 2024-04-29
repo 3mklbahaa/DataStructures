@@ -7,7 +7,7 @@ typedef struct element{
 
 typedef struct node{
     element data;
-    struct node* right, *left;
+    struct node* left, *right;
 }*Btree;
 
 Btree construct(element e, Btree left, Btree right){
@@ -18,23 +18,23 @@ Btree construct(element e, Btree left, Btree right){
     return tmp;
 }
 
-void inOrderTraversal(Btree root){
-    if(root){
-        inOrderTraversal(root->left);
-        printf("%d",root->data.a);
-        inOrderTraversal(root->right);
+void inOrderTraversal(Btree B){
+    if(B){
+        inOrderTraversal(B->left);
+        printf("%d ",B->data);
+        inOrderTraversal(B->right);
     }
 }
 
-void printOutsideRange(Btree root, int a, int b){
-    if(!root){
+void printOutsideRange(Btree B, int a, int b){
+    if(!B){
         return;
     }
-    if(root->data.a<a || root->data.a>b){
-        printf("%d",root->data.a);
+    if(B->data.a<a || B->data.a>b){
+        printf("%d ",B->data.a);
     }
-    printOutsideRange(root->right,a,b);
-    printOutsideRange(root->left,a,b);
+    printOutsideRange(B->left,a,b);
+    printOutsideRange(B->right,a,b);
 }
 
 int main() {
@@ -47,14 +47,14 @@ int main() {
     element e7 = { 18 };
 
     Btree root = construct(e1,
-        construct(e2,
-            construct(e4, NULL, NULL),
-            construct(e5, NULL, NULL)
-        ),
-        construct(e3,
-            construct(e6, NULL, NULL),
-            construct(e7, NULL, NULL)
-        )
+                           construct(e2,
+                                     construct(e4, NULL, NULL),
+                                     construct(e5, NULL, NULL)
+                           ),
+                           construct(e3,
+                                     construct(e6, NULL, NULL),
+                                     construct(e7, NULL, NULL)
+                           )
     );
 
     printf("In-order traversal: ");
