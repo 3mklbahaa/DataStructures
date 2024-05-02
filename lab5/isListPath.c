@@ -55,7 +55,7 @@ bool isSubPath(ListNode* head, Btree root){
     if(isPathUtil(head,root)){
         return true;
     }
-    return false;
+    return isPathUtil(head,root->right) || isPathUtil(head,root->left);
 }
 
 int main() {
